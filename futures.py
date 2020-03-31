@@ -8,18 +8,13 @@
 
 # IP地址取自国内髙匿代理IP网站：http://www.xicidaili.com/nn/
 # 仅仅爬取首页IP地址就足够一般使用
-from bs4 import BeautifulSoup
+import schedule
 import datetime
 import dateutil
 import requests
-from requests import RequestException
-import urllib3
-import random
 import pandas as pd
 import re
 import time
-import sched
-import schedule
 
 
 def getContractNum(date):
@@ -121,9 +116,6 @@ def main(afterMonths, beforDays):
                 res.append(result)
     pdResult = pd.DataFrame(res)
     pdResult.to_csv('上海期货-铝.csv', index=False, header=False, mode='a')
-
-
-# main(3, 0)
 
 
 def job():
