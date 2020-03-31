@@ -19,6 +19,7 @@ import pandas as pd
 import re
 import time
 import sched
+import schedule
 
 
 def getContractNum(date):
@@ -108,7 +109,7 @@ def crawler_one_day(delta, contract):
 def main(afterMonths, beforDays):
     res = []
     today = datetime.datetime.now()
-    for contractNumber in range(1, afterMonths+1):
+    for contractNumber in range(afterMonths, afterMonths+1):
         # 爬取未来月份的合约
         future = today + dateutil.relativedelta.relativedelta(months=contractNumber)
         futureContract = getContractNum(future)
@@ -122,4 +123,16 @@ def main(afterMonths, beforDays):
     pdResult.to_csv('上海期货-铝.csv', index=False, header=False, mode='a')
 
 
-main(5, 10)
+# main(3, 0)
+
+
+def job():
+    print("I'm working...")
+    main(3, 0)
+
+schedule.every(1).minutes.do(job)
+
+while True:
+    schedule.run_pending()
+    time.sleep(1)
+
